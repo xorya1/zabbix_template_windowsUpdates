@@ -1,0 +1,84 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+    - uuid: 846977d1dfed4968bc5f8bdb363285bc
+      name: 'Templates/Operating systems'
+  templates:
+    - uuid: c07db33a660846a8987e026c10456160
+      template: 'Windows extended info'
+      name: 'Windows extended info'
+      groups:
+        - name: Templates
+      items:
+        - uuid: f1c2ba9a54af446596e39e78bf2cb30a
+          name: 'Opened ports'
+          key: 'system.run[netstat -a -n]'
+          trends: '0'
+          value_type: TEXT
+        - uuid: e303b7275c844c2b94df233ba662ebaa
+          name: 'List available Updates'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\CheckForUpdates.ps1"]'
+          delay: 2h
+          trends: '0'
+          value_type: TEXT
+        - uuid: 29bc29dc42964dcf9cd33512ddec5f2e
+          name: 'Check if updates are OK(19-ok 20-failed 21-started)'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\CheckIfOk.ps1"]'
+          delay: 2h
+          history: 2d
+          trends: '0'
+          value_type: LOG
+        - uuid: 2d0c6da1b7374f94a755acdecb702a89
+          name: 'Days Since Last Windows Update'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\DaysSinceLastWindowsUpdate.ps1"]'
+          delay: 2h
+        - uuid: a04e215659314786be1833898eaaf40b
+          name: 'Pending or Yet to be installed updates'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\PendingOrYetToBeInstalledUpdates.ps1"]'
+          delay: 2h
+          trends: '0'
+          value_type: TEXT
+        - uuid: 466e6b7e8b6740978d257c516b21ee5f
+          name: 'Windows Security Updates'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\SecurityUpdates.ps1"]'
+          delay: 2h
+          trends: '0'
+          value_type: TEXT
+        - uuid: 72009080684e453a8ccd6067207ea2cb
+          name: 'Time Since Last Windows Update'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\TimeSinceLastUpdate.ps1"]'
+          delay: 2h
+          trends: '0'
+          value_type: TEXT
+        - uuid: 1276d8ddd65c47d681a85fdaf700099c
+          name: 'Windows updates(using WuHISTORY cmdlet)'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\wuhi.ps1"]'
+          delay: 2h
+          history: 5d
+          trends: '0'
+          value_type: TEXT
+        - uuid: 2426fd395d764aecb1779185e9d0103a
+          name: 'Windows Current Version'
+          key: 'system.run[powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Get-ComputerInfo -Property WindowsCurrentVersion"]'
+          delay: 2h
+          trends: '0'
+          value_type: TEXT
+        - uuid: 65513668f4724cdda243ced5b6a769d6
+          name: 'Currenlty logged In Users'
+          key: 'system.run[query user]'
+          trends: '0'
+          value_type: TEXT
+    - uuid: 04c11bcc57fe40a2b6aba0762e7c2d0d
+      template: 'Windows extended info for powershell 4'
+      name: 'Windows extended info for powershell 4'
+      groups:
+        - name: 'Templates/Operating systems'
+      items:
+        - uuid: 139aee28cb13493eb9f829c45c39c9c9
+          name: 'List failed and succefull windows updates'
+          key: 'system.run[powershell -NoProfile -ExecutionPolicy bypass -File "C:\zabbix-agent-scripts\CheckIfOKp4.ps1"]'
+          delay: 1h
+          trends: '0'
+          value_type: TEXT
