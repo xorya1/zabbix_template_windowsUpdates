@@ -1,1 +1,0 @@
-Get-WindowsPackage -Online | Where {$_.PackageState -match "Staged|InstallPending"}
